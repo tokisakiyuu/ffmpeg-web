@@ -8,8 +8,10 @@ An in-browser ffmpeg utility built on [ffmpeg.wasm](https://github.com/ffmpegwas
 - Extract the audio track from a video (lossless stream copy supported)
 - Trim clips (fast keyframe mode / frame-accurate re-encode mode)
 - Compress video (adjustable CRF, resolution, encoder preset)
-- Rotate video 90° clockwise, 180°, or 90° counterclockwise (MP4 output, audio retained)
+- Rotate video 90° clockwise, 180°, or 90° counterclockwise, or flip horizontally/vertically in the same node (MP4 output, audio retained)
 - Remove all audio tracks without re-encoding the video or changing its container
+- Crop to common aspect ratios (1:1 / 16:9 / 9:16 / 4:3 / 3:4) or a custom region, with adjustable position
+- Change playback speed from 0.25× to 4×, keeping audio in sync and preserving its pitch
 - Import files via drag & drop, file picker, or ⌘V paste
 - Chain operations as nodes in a linear workflow with per-node progress; only the final node's output is produced. The equivalent ffmpeg command is previewed live and copyable
 - Node layout and parameters persist in localStorage
@@ -19,6 +21,7 @@ An in-browser ffmpeg utility built on [ffmpeg.wasm](https://github.com/ffmpegwas
 ```bash
 pnpm install
 pnpm dev
+pnpm test    # process synthetic videos with the bundled FFmpeg core
 pnpm build   # output in dist/, deployable to any static host (incl. GitHub Pages — no COOP/COEP headers needed)
 ```
 

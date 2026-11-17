@@ -40,7 +40,7 @@ export interface OutputArtifact {
 
 // ---------- operations ----------
 
-export type OpKind = 'convert' | 'extract-audio' | 'trim' | 'compress' | 'rotate' | 'remove-audio'
+export type OpKind = 'convert' | 'extract-audio' | 'trim' | 'compress' | 'rotate' | 'remove-audio' | 'crop' | 'speed'
 
 export type OpParams = Record<string, string | number | boolean>
 
