@@ -1,4 +1,4 @@
-import { Music, Repeat, Scissors, Shrink } from 'lucide-react'
+import { Music, Repeat, RotateCw, Scissors, Shrink, VolumeX } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { OpKind } from '../../types'
 
@@ -8,4 +8,6 @@ export const OP_ICONS: Record<OpKind, LucideIcon> = {
   'extract-audio': Music,
   trim: Scissors,
   compress: Shrink,
+  rotate: RotateCw,
+  'remove-audio': VolumeX,
 }

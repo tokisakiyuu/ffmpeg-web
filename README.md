@@ -8,6 +8,8 @@ An in-browser ffmpeg utility built on [ffmpeg.wasm](https://github.com/ffmpegwas
 - Extract the audio track from a video (lossless stream copy supported)
 - Trim clips (fast keyframe mode / frame-accurate re-encode mode)
 - Compress video (adjustable CRF, resolution, encoder preset)
+- Rotate video 90° clockwise, 180°, or 90° counterclockwise (MP4 output, audio retained)
+- Remove all audio tracks without re-encoding the video or changing its container
 - Import files via drag & drop, file picker, or ⌘V paste
 - Chain operations as nodes in a linear workflow with per-node progress; only the final node's output is produced. The equivalent ffmpeg command is previewed live and copyable
 - Node layout and parameters persist in localStorage

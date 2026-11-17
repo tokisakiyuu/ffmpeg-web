@@ -140,7 +140,7 @@ export async function runPipeline(host: RunnerHost): Promise<void> {
         },
       })
 
-      const mime = op.outputMime(node.params)
+      const mime = op.outputMime(node.params, result.outputName)
       // readFile's Uint8Array is transferred zero-copy; wrap in a Blob and
       // drop the reference so wasm memory can be reclaimed
       const blob = new Blob([result.data as unknown as BlobPart], { type: mime })

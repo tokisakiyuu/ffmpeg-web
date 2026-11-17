@@ -80,6 +80,11 @@ export function NodeCard({ node, index, total }: NodeCardProps) {
 
       {/* params */}
       <div className="space-y-3 px-3 py-3">
+        {def.fields.length === 0 && (
+          <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+            {def.description}
+          </p>
+        )}
         {def.fields.map((field) => (
           <ParamField
             key={field.key}

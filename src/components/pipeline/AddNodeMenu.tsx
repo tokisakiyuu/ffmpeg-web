@@ -17,7 +17,12 @@ export function AddNodeMenu({ disabled, emphasized }: AddNodeMenuProps) {
   const addNode = useAppStore((s) => s.addNode)
   const [open, setOpen] = useState(false)
   // fixed positioning so the popover escapes the overflow-x-auto scroller
-  const [pos, setPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 })
+  const [pos, setPos] = useState<{
+    top?: number
+    bottom?: number
+    left: number
+    maxHeight: number
+  }>({ top: 0, left: 0, maxHeight: 0 })
   const buttonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -28,9 +33,13 @@ export function AddNodeMenu({ disabled, emphasized }: AddNodeMenuProps) {
     }
     const rect = buttonRef.current?.getBoundingClientRect()
     if (rect) {
+      const below = window.innerHeight - rect.bottom - 16
+      const above = rect.top - 16
+      const openAbove = below < 420 && above > below
       setPos({
-        top: rect.bottom + 8,
+        ...(openAbove ? { bottom: window.innerHeight - rect.top + 8 } : { top: rect.bottom + 8 }),
         left: Math.max(8, Math.min(rect.left, window.innerWidth - MENU_WIDTH - 8)),
+        maxHeight: Math.max(0, openAbove ? above : below),
       })
     }
     setOpen(true)
@@ -44,13 +53,17 @@ export function AddNodeMenu({ disabled, emphasized }: AddNodeMenuProps) {
       setOpen(false)
     }
     const close = () => setOpen(false)
+    const onScroll = (e: Event) => {
+      if (e.target instanceof Node && menuRef.current?.contains(e.target)) return
+      close()
+    }
     document.addEventListener('pointerdown', onPointerDown)
     // fixed position goes stale on scroll/resize, just dismiss
-    window.addEventListener('scroll', close, true)
+    window.addEventListener('scroll', onScroll, true)
     window.addEventListener('resize', close)
     return () => {
       document.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('scroll', close, true)
+      window.removeEventListener('scroll', onScroll, true)
       window.removeEventListener('resize', close)
     }
   }, [open])
@@ -80,8 +93,8 @@ export function AddNodeMenu({ disabled, emphasized }: AddNodeMenuProps) {
       {open && (
         <div
           ref={menuRef}
-          style={{ position: 'fixed', top: pos.top, left: pos.left, width: MENU_WIDTH }}
-          className="z-50 rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+          style={{ position: 'fixed', ...pos, width: MENU_WIDTH }}
+          className="z-50 overflow-y-auto rounded-xl border border-zinc-200 bg-white p-1.5 shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
         >
           {OP_LIST.map((op) => {
             const Icon = OP_ICONS[op.kind]

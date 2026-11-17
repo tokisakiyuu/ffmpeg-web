@@ -40,7 +40,7 @@ export interface OutputArtifact {
 
 // ---------- operations ----------
 
-export type OpKind = 'convert' | 'extract-audio' | 'trim' | 'compress'
+export type OpKind = 'convert' | 'extract-audio' | 'trim' | 'compress' | 'rotate' | 'remove-audio'
 
 export type OpParams = Record<string, string | number | boolean>
 
@@ -79,8 +79,8 @@ export interface OpDefinition {
    * unreliable progress events (computed from log `time` / this value)
    */
   expectedOutputDurationSec: (params: OpParams, info?: MediaInfo) => number | undefined
-  /** mime type of the produced file (by output extension) */
-  outputMime: (params: OpParams) => string
+  /** mime type of the produced file; outputName reflects prior pipeline nodes */
+  outputMime: (params: OpParams, outputName?: string) => string
 }
 
 // ---------- engine ----------
